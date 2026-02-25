@@ -40,8 +40,8 @@ cp kde_settings.conf /mnt/etc/sddm.conf.d/
 
 #GRUB
 
-cp openSUSE /mnt/usr/share/grub/themes
+cp -r openSUSE /mnt/usr/share/grub/themes
 rm /mnt/etc/default/grub
-mv grub /mnt/etc/default/
+cp grub /mnt/etc/default/
 
 arch-chroot /mnt grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg
