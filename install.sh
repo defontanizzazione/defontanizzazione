@@ -7,10 +7,25 @@ else
 fi
 
 # INSALLAZIONE SISTEMA BASE
+pacman -Sy archlinux-keyring --needed
 pacstrap -K /mnt/ base base-devel linux linux-firmware linux-headers grub vim efibootmgr os-prober networkmanager sddm git
 
 # MODIFICA DI SUDOERS PER ABILITARE SUDO
-touch /mnt/etc/sudoer
-sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers > /mnt/etc/sudoer
-rm /mnt/etc/sudoers
-mv /mnt/etc/sudoer /mnt/etc/sudoers
+sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers > /mnt/etc/sudoers.tmp
+cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
+rm /mnt/etc/sudoers.tmp
+
+# MODIFICA DEI LOCALI
+# en_US.UTF-8
+
+sed 's/#en_US.UTF-8/en_US.UTF-8/g' /mnt/etc/locale.gen > /mnt/etc/locale.gen.tmp
+cat /mnt/etc/locale.gen.tmp > /mnt/etc/locale.gen
+rm /mnt/etc/locale.gen.tmp
+
+# it_IT.UTF-8
+
+sed 's/#it_IT.UTF-8/it_IT.UTF-8/g' /mnt/etc/locale.gen > /mnt/etc/locale.gen.tmp
+cat /mnt/etc/locale.gen.tmp > /mnt/etc/locale.gen
+rm /mnt/etc/locale.gen.tmp
+
+arch-chroot /mnt locale-gen && localectl set-locale it_IT.UTF-8 && localectl set-keymap it
