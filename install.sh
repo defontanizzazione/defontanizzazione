@@ -33,5 +33,15 @@ arch-chroot /mnt locale-gen && localectl set-locale it_IT.UTF-8 && localectl set
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
 
 # SETUP ROBE BOH
+# SDDM
 
 mkdir -p /mnt/etc/sddm.conf.d/
+cp kde_settings.conf /mnt/etc/sddm.conf.d/
+
+#GRUB
+
+cp openSUSE /mnt/usr/share/grub/themes
+rm /mnt/etc/default/grub
+mv grub /mnt/etc/default/
+
+arch-chroot /mnt grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg
