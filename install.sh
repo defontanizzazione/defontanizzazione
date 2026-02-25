@@ -38,10 +38,15 @@ ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
 mkdir -p /mnt/etc/sddm.conf.d/
 cp kde_settings.conf /mnt/etc/sddm.conf.d/
 
-#GRUB
+# GRUB
 
 cp -r openSUSE /mnt/usr/share/grub/themes
 rm /mnt/etc/default/grub
 cp grub /mnt/etc/default/
 
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
+
+# PACMAN
+rm /mnt/etc/pacman.conf
+mv pacman.conf /mnt/etc/
+arch-chroot /mnt bash -c 'sudo pacman -S plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth flatpak --needed'
