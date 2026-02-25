@@ -29,3 +29,9 @@ cat /mnt/etc/locale.gen.tmp > /mnt/etc/locale.gen
 rm /mnt/etc/locale.gen.tmp
 
 arch-chroot /mnt locale-gen && localectl set-locale it_IT.UTF-8 && localectl set-keymap it
+
+ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
+
+# SETUP ROBE BOH
+
+mkdir -p /mnt/etc/sddm.conf.d/
