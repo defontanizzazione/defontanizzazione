@@ -49,8 +49,10 @@ arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -
 # PACMAN
 rm /mnt/etc/pacman.conf
 mv pacman.conf /mnt/etc/
-arch-chroot /mnt bash -c 'sudo pacman -S plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth flatpak --needed'
+arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth flatpak --needed'
 
 # unico commento in minuscolo
-arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh && chpasswd < passwords.txt'
+arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
 genfstab -U /mnt > /mnt/etc/fstab
+arch-chroot /mnt -u user bash -c 'plasma-apply-wallpaperimage /defontanizzazione/1920x1080.jpg'
+reboot
