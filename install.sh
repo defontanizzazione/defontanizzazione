@@ -43,7 +43,9 @@ sed 's/#it_IT.UTF-8/it_IT.UTF-8/g' /mnt/etc/locale.gen > /mnt/etc/locale.gen.tmp
 cat /mnt/etc/locale.gen.tmp > /mnt/etc/locale.gen
 rm /mnt/etc/locale.gen.tmp
 
-arch-chroot /mnt bash -c 'locale-gen && localectl set-locale it_IT.UTF-8 && localectl set-keymap it'
+arch-chroot /mnt bash -c 'locale-gen'
+echo 'LC_ALL="it_IT.UTF-8"' > /mnt/etc/locale.conf
+echo 'KEYMAP=it' > /mnt/etc/vconsole.conf
 
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
 
@@ -65,6 +67,7 @@ arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kchars
 # Comandi per rendere il sistema "usabile"
 arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
 genfstab -U /mnt > /mnt/etc/fstab
+
 arch-chroot /mnt -u user bash -c 'plasma-apply-wallpaperimage /defontanizzazione/1920x1080.jpg'
 
 # Magari eviterei di fare il reboot automatico con lo stato in qui è questo script rn
