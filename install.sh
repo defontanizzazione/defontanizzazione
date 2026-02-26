@@ -6,6 +6,16 @@ else
     exit
 fi
 
+copy_configs () {
+    mkdir -p /mnt/etc/sddm.conf.d/
+    cp kde_settings.conf /mnt/etc/sddm.conf.d/
+    cp -r openSUSE /mnt/usr/share/grub/themes
+    rm /mnt/etc/default/grub
+    cp grub /mnt/etc/default/
+    rm /mnt/etc/pacman.conf
+    mv pacman.conf /mnt/etc/
+}
+
 # INSALLAZIONE SISTEMA BASE
 pacman -Sy archlinux-keyring --needed
 pacstrap -K /mnt/ base base-devel linux linux-firmware linux-headers grub vim efibootmgr os-prober networkmanager sddm git zsh
@@ -33,22 +43,16 @@ arch-chroot /mnt bash -c 'locale-gen && localectl set-locale it_IT.UTF-8 && loca
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
 
 # SETUP ROBE BOH
-# SDDM
 
-mkdir -p /mnt/etc/sddm.conf.d/
-cp kde_settings.conf /mnt/etc/sddm.conf.d/
-
-# GRUB
-
-cp -r openSUSE /mnt/usr/share/grub/themes
-rm /mnt/etc/default/grub
-cp grub /mnt/etc/default/
+if [[ "$(pwd)" == /mnt/defontanizzazione ]]; then
+    copy_configs
+else if [[ "$(pwd)" == /mnt ]]; then
+    cd defontanizzazione
+    copy_configs
 
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
 
 # PACMAN
-rm /mnt/etc/pacman.conf
-mv pacman.conf /mnt/etc/
 arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth flatpak --needed'
 
 # unico commento in minuscolo
