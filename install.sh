@@ -7,25 +7,30 @@ else
 fi
 
 copy_configs () {
+    # sddm
     mkdir -p /mnt/etc/sddm.conf.d/
     cp kde_settings.conf /mnt/etc/sddm.conf.d/
+
+    # grub
     cp -r openSUSE /mnt/usr/share/grub/themes
     rm /mnt/etc/default/grub
     cp grub /mnt/etc/default/
+
+    # pacman
     rm /mnt/etc/pacman.conf
     mv pacman.conf /mnt/etc/
 }
 
-# INSALLAZIONE SISTEMA BASE
+# Installazione sistema base
 pacman -Sy archlinux-keyring --needed
 pacstrap -K /mnt/ base base-devel linux linux-firmware linux-headers grub vim efibootmgr os-prober networkmanager sddm git zsh
 
-# MODIFICA DI SUDOERS PER ABILITARE SUDO
+# Modifica di visudo per consentire l'accesso a sudo per utenti non-root
 sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers > /mnt/etc/sudoers.tmp
 cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
 rm /mnt/etc/sudoers.tmp
 
-# MODIFICA DEI LOCALI
+# Locali
 # en_US.UTF-8
 
 sed 's/#en_US.UTF-8/en_US.UTF-8/g' /mnt/etc/locale.gen > /mnt/etc/locale.gen.tmp
@@ -42,21 +47,25 @@ arch-chroot /mnt bash -c 'locale-gen && localectl set-locale it_IT.UTF-8 && loca
 
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
 
-# SETUP ROBE BOH
+# Setup configurazioni
 
-if [[ "$(pwd)" == /mnt/defontanizzazione ]]; then
-    copy_configs
-else if [[ "$(pwd)" == /mnt ]]; then
-    cd defontanizzazione
-    copy_configs
+# check rotto assai
+# if [[ "$(pwd)" == /mnt/defontanizzazione ]]; then
+#    copy_configs
+# else if [[ "$(pwd)" == /mnt ]]; then
+#    cd defontanizzazione
+
+copy_configs
 
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
 
-# PACMAN
+# Installazione pacchetti
 arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth flatpak --needed'
 
-# unico commento in minuscolo
+# Comandi per rendere il sistema "usabile"
 arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
 genfstab -U /mnt > /mnt/etc/fstab
 arch-chroot /mnt -u user bash -c 'plasma-apply-wallpaperimage /defontanizzazione/1920x1080.jpg'
-reboot
+
+# Magari eviterei di fare il reboot automatico con lo stato in qui è questo script rn
+# reboot
