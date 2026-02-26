@@ -10,7 +10,7 @@ Si ringrazia:
 
 e nessun altro
 
-TODO:
+## TODO:
 
 - [ ] Sistemare il problema delle directory (le config non vengono copiate se l'eseguibile non viene eseguito dalla directory della repo)
 - [ ] Applicare automaticamente lo sfondo
