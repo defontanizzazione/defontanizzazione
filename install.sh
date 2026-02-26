@@ -30,6 +30,27 @@ sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers >
 cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
 rm /mnt/etc/sudoers.tmp
 
+# Setup configurazioni
+
+# check rotto assai
+# if [[ "$(pwd)" == /mnt/defontanizzazione ]]; then
+#    copy_configs
+# else if [[ "$(pwd)" == /mnt ]]; thenk
+#    cd defontanizzazione
+
+copy_configs
+
+arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
+
+# Installazione pacchetti
+arch-chroot /mnt bash -c "pacman -Sy flatpak; flatpak install flathub com.visualstudio.code -y"
+arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans --needed'
+
+# Comandi per rendere il sistema "usabile"
+arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
+genfstab -U /mnt > /mnt/etc/fstab
+
+
 # Locali
 # en_US.UTF-8
 
@@ -44,31 +65,8 @@ cat /mnt/etc/locale.gen.tmp > /mnt/etc/locale.gen
 rm /mnt/etc/locale.gen.tmp
 
 arch-chroot /mnt bash -c 'locale-gen'
-echo 'LC_ALL="it_IT.UTF-8"' > /mnt/etc/locale.conf
-echo 'KEYMAP=it' > /mnt/etc/vconsole.conf
-
+arch-chroot /mnt bash -c 'localectl set-locale it_IT.UTF-8 && localectl set-keymap it'
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
-
-# Setup configurazioni
-
-# check rotto assai
-# if [[ "$(pwd)" == /mnt/defontanizzazione ]]; then
-#    copy_configs
-# else if [[ "$(pwd)" == /mnt ]]; then
-#    cd defontanizzazione
-
-copy_configs
-
-arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
-
-# Installazione pacchetti
-arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth flatpak --needed'
-
-# Comandi per rendere il sistema "usabile"
-arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
-genfstab -U /mnt > /mnt/etc/fstab
-
-arch-chroot /mnt -u user bash -c 'plasma-apply-wallpaperimage /defontanizzazione/1920x1080.jpg'
 
 # Magari eviterei di fare il reboot automatico con lo stato in qui è questo script rn
 # reboot
