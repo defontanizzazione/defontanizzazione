@@ -47,7 +47,7 @@ copy_configs
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
 
 # Installazione pacchetti
-arch-chroot /mnt bash -c "pacman -Sy flatpak && flatpak install flathub com.visualstudio.code -y"
+arch-chroot /mnt bash -c "pacman -Sy flatpak --noconfirm && flatpak install flathub com.visualstudio.code -y"
 arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans --noconfirm'
 
 # Comandi per rendere il sistema "usabile"
