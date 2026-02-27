@@ -34,7 +34,7 @@ copy_configs () {
 }
 
 # Installazione sistema base
-pacman -Sy archlinux-keyring --noconfirm
+pacman -Sy archlinux-keyring --noconfirm --needed
 pacstrap -K /mnt/ base base-devel linux linux-firmware linux-headers grub vim efibootmgr os-prober networkmanager sddm git zsh
 
 # Modifica di visudo per consentire l'accesso a sudo per utenti non-root
