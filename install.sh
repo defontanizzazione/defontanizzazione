@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Controlla defontanizzazione
 testdir="$PWD"
 
