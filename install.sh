@@ -1,8 +1,18 @@
+# controlla defontanizzazione
+testdir="$PWD"
+
+if [[ $testdir == /mnt/defontanizzazione ]]; then
+    :
+else
+    echo "non si fa"
+fi
+
 # CONTROLLA PUNTI DI MOUNT
 
 if (df /mnt /mnt/boot/); then
     :
 else
+    echo "no mountpoints"
     exit
 fi
 
@@ -22,7 +32,7 @@ copy_configs () {
 }
 
 # Installazione sistema base
-pacman -Sy archlinux-keyring --needed
+pacman -Sy archlinux-keyring --noconfirm
 pacstrap -K /mnt/ base base-devel linux linux-firmware linux-headers grub vim efibootmgr os-prober networkmanager sddm git zsh
 
 # Modifica di visudo per consentire l'accesso a sudo per utenti non-root
@@ -43,8 +53,8 @@ copy_configs
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
 
 # Installazione pacchetti
-arch-chroot /mnt bash -c "pacman -Sy flatpak; flatpak install flathub com.visualstudio.code -y"
-arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans --needed'
+arch-chroot /mnt bash -c "pacman -Sy flatpak && flatpak install flathub com.visualstudio.code -y"
+arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans --noconfirm'
 
 # Comandi per rendere il sistema "usabile"
 arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
