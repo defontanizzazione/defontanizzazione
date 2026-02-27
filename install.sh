@@ -31,6 +31,9 @@ copy_configs () {
     # pacman
     rm /mnt/etc/pacman.conf
     mv pacman.conf /mnt/etc/
+
+    # zsh
+    cp .zshrc /home/user/
 }
 
 # Installazione sistema base
