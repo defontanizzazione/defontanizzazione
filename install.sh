@@ -1,4 +1,4 @@
-# controlla defontanizzazione
+# Controlla defontanizzazione
 testdir="$PWD"
 
 if [[ $testdir == /mnt/defontanizzazione ]]; then
@@ -7,7 +7,7 @@ else
     echo "non si fa"
 fi
 
-# CONTROLLA PUNTI DI MOUNT
+# Controlla se root è montato
 
 if (df /mnt /mnt/boot/); then
     :
@@ -39,14 +39,6 @@ pacstrap -K /mnt/ base base-devel linux linux-firmware linux-headers grub vim ef
 sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers > /mnt/etc/sudoers.tmp
 cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
 rm /mnt/etc/sudoers.tmp
-
-# Setup configurazioni
-
-# check rotto assai
-# if [[ "$(pwd)" == /mnt/defontanizzazione ]]; then
-#    copy_configs
-# else if [[ "$(pwd)" == /mnt ]]; thenk
-#    cd defontanizzazione
 
 copy_configs
 
