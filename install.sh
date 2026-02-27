@@ -67,7 +67,7 @@ cat /mnt/etc/locale.gen.tmp > /mnt/etc/locale.gen
 rm /mnt/etc/locale.gen.tmp
 
 arch-chroot /mnt bash -c 'locale-gen'
-arch-chroot /mnt bash -c 'localectl set-locale it_IT.UTF-8 && localectl set-keymap it'
+arch-chroot /mnt bash -c 'systemd-firstboot --locale=it_IT.UTF-8 --locale-messages=it_IT.UTF-8 --keymap=it'
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
 
 # Magari eviterei di fare il reboot automatico con lo stato in qui è questo script rn
