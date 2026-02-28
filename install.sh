@@ -34,6 +34,10 @@ copy_configs () {
 
     # zsh
     cp .zshrc /home/user/
+
+    # sfondi
+    rm -rf /mnt/usr/share/wallpapers/Next
+    cp -r wallpapers/* /mnt/usr/share/wallpapers
 }
 
 # Installazione sistema base
