@@ -1,0 +1,13 @@
+
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "openSUSE Artwork Team"
+            }
+        ],
+        "id":"",
+        "license":"CC-BY-SA-4.0",
+        "Name":"openSUSE default"
+    }
+}
