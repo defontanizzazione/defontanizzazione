@@ -55,7 +55,7 @@ arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -
 
 # Installazione pacchetti
 arch-chroot /mnt bash -c "pacman -Sy flatpak --noconfirm && flatpak install flathub com.visualstudio.code -y"
-arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans --noconfirm'
+arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans power-profiles-daemon --noconfirm'
 
 # Comandi per rendere il sistema "usabile"
 arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
