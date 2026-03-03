@@ -38,9 +38,9 @@ copy_configs () {
     # sfondi
     rm -rf /mnt/usr/share/wallpapers/Next
     cp -r wallpapers/* /mnt/usr/share/wallpapers
-sed 's/Next/openSUSEdefault/g' /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json > /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp
-cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
-rm /mnt/etc/sudoers.tmp
+    sed 's/Next/openSUSEdefault/g' /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json > /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp
+    cat /mnt/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp > /mnt/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/metadata.json
+    rm /mnt/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp
 
 }
 
