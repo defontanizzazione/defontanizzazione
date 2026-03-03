@@ -38,16 +38,6 @@ copy_configs () {
     # sfondi
     rm -rf /mnt/usr/share/wallpapers/Next
     cp -r wallpapers/* /mnt/usr/share/wallpapers
-    touch /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp
-sed 's/Next/openSUSEdefault/g' /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json > /mnt/usr/share/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp
-    cat /mnt/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp > /mnt/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/metadata.json
-    rm /mnt/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/metadata.json.tmp
-
-}
-
-install_packages () {
-    arch-chroot /mnt bash -c "pacman -Sy flatpak --noconfirm && flatpak install flathub com.visualstudio.code -y"
-    arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans power-profiles-daemon --noconfirm'
 }
 
 # Installazione sistema base
@@ -59,12 +49,13 @@ sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers >
 cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
 rm /mnt/etc/sudoers.tmp
 
-install_packages
 copy_configs
 
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
 
 # Installazione pacchetti
+arch-chroot /mnt bash -c "pacman -Sy flatpak --noconfirm && flatpak install flathub com.visualstudio.code -y"
+arch-chroot /mnt bash -c 'pacman -Sy plasma konsole dolphin firefox kcalc kcharselect kmines git unzip vlc doxygen wireshark-qt tigervnc gimp jdk11-openjdk libreoffice-still ark kate kleopatra kmousetool kompare spectacle ktnef kmag ksudoku kreversi kmahjongg gwenview okular skanlite kmail konversation kwalletmanager plymouth netbeans power-profiles-daemon --noconfirm'
 
 # Comandi per rendere il sistema "usabile"
 arch-chroot /mnt bash -c 'systemctl enable sddm && systemctl enable NetworkManager && useradd -m -G wheel -s /usr/bin/zsh user && chpasswd < /defontanizzazione/passwords.txt'
@@ -87,8 +78,6 @@ rm /mnt/etc/locale.gen.tmp
 arch-chroot /mnt bash -c 'locale-gen'
 arch-chroot /mnt bash -c 'systemd-firstboot --locale=it_IT.UTF-8 --locale-messages=it_IT.UTF-8 --keymap=it'
 ln -sf ../mnt/usr/share/zoneinfo/Europe/Rome /mnt/etc/localtime
-
-echo "finito, fai 'reboot' per continuare"
 
 # Magari eviterei di fare il reboot automatico con lo stato in qui è questo script rn
 # reboot
