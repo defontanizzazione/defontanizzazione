@@ -58,8 +58,8 @@ sed 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /mnt/etc/sudoers >
 cat /mnt/etc/sudoers.tmp > /mnt/etc/sudoers
 rm /mnt/etc/sudoers.tmp
 
-copy_configs
 install_packages
+copy_configs
 
 arch-chroot /mnt bash -c 'grub-install --efi-directory=/boot/ && grub-mkconfig -o /boot/grub/grub.cfg'
 
