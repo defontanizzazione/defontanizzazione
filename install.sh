@@ -19,6 +19,8 @@ else
     exit
 fi
 
+# timer per le scelte di vita
+
 echo "lo script partirà in 10 secondi, ctrl+c se non si è sicuri"
 for i in {10..1}; do
     printf "$i "
