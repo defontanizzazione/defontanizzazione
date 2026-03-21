@@ -21,14 +21,11 @@ fi
 
 echo "lo script partirà in 10 secondi, ctrl+c se non si è sicuri"
 for i in {10..1}; do
-    printf $i
-    sleep .25
-    printf "."
-    sleep .25
-    printf "."
-    sleep .25
-    printf "."
-    sleep .25
+    printf "$i "
+    for j in {4..1}; do
+        printf ". "
+        sleep .25
+    done
 done
 
 copy_configs () {
