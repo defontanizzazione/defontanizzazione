@@ -7,6 +7,7 @@ if [[ $testdir == /mnt/defontanizzazione ]]; then
     :
 else
     echo "non si fa"
+    exit
 fi
 
 # Controlla se root è montato
