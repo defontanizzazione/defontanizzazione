@@ -19,6 +19,18 @@ else
     exit
 fi
 
+echo "lo script partirà in 10 secondi, ctrl+c se non si è sicuri"
+for i in {10..1}; do
+    printf $i
+    sleep .25
+    printf "."
+    sleep .25
+    printf "."
+    sleep .25
+    printf "."
+    sleep .25
+done
+
 copy_configs () {
     # sddm
     mkdir -p /mnt/etc/sddm.conf.d/
